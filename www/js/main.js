@@ -318,7 +318,9 @@ $(document).ready(function() {
 
 	display7.setValue('12:34:30');
 	
- // window.setInterval('animate()', 100);
+
+  //window.setInterval('animate()', 100);
+
   
   function animate() {
     var time    = new Date();
