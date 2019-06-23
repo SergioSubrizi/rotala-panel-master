@@ -64,7 +64,6 @@
                 }
                 
                 var Holder    = '<div id="holdon-overlay" style="display: none;">\n\
-
                                     <div id="holdon-content-container">\n\
                                         <div id="holdon-content">'+content+'</div>\n\
                                         <div id="holdon-message">'+message+'</div>\n\

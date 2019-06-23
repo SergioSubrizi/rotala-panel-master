@@ -73,7 +73,7 @@ probeDistance = 60				# Preset Max distance when moving for Auto Zero
 
 
 def MoveFence(ABS):
-	data = {"target": "Center", "value" : "images/RunningToAbs.jpg", "hold": "true"}
+	data = {"target": "Center", "value" : "images/RunningToAbs.png", "hold": "true"}
 	data = json.dumps(data)
 	ws.write_message(data)
 	if ABS > 0:
@@ -82,12 +82,12 @@ def MoveFence(ABS):
 	else:
 		runFence.step(ABS*200, "right"); #steps, dir, speed, stayOn
 		runFence.cleanGPIO
-	data = {"target": "Center", "value" : "images/RunToAbs.jpg", "hold": "false"}
+	data = {"target": "Center", "value" : "images/RunToAbs.png", "hold": "false"}
 	data = json.dumps(data)
 	ws.write_message(data)
 	
 def MoveFenceRel(ABS):
-	data = {"target": "Center3", "value" : "images/MovingRel.jpg", "hold": "true"}
+	data = {"target": "Center3", "value" : "images/MovingRel.png", "hold": "true"}
 	data = json.dumps(data)
 	ws.write_message(data)
 	if ABS > 0:
@@ -96,13 +96,13 @@ def MoveFenceRel(ABS):
 	else:
 		runFence.step(ABS*200, "right"); #steps, dir, speed, stayOn
 		runFence.cleanGPIO
-	data = {"target": "Center3", "value" : "images/MoveRel.jpg", "hold": "false"}
+	data = {"target": "Center3", "value" : "images/MoveRel.png", "hold": "false"}
 	data = json.dumps(data)
 	ws.write_message(data)
 
 
 def MoveHeight(ABS):
-	data = {"target": "Center2", "value" : "images/RunningToAbs.jpg", "hold": "true"}
+	data = {"target": "Center2", "value" : "images/RunningToAbs.png", "hold": "true"}
 	data = json.dumps(data)
 	ws.write_message(data)
 	if ABS > 0:
@@ -111,7 +111,7 @@ def MoveHeight(ABS):
 	else:
 		runHeight.step(ABS*200, "right"); #steps, dir, speed, stayOn
 		runHeight.cleanGPIO
-	data = {"target": "Center2", "value" : "images/RunToAbs.jpg", "hold": "false"}
+	data = {"target": "Center2", "value" : "images/RunToAbs.png", "hold": "false"}
 	data = json.dumps(data)
 	ws.write_message(data)
 
@@ -128,7 +128,7 @@ def fenceFineHoming():
 			runFence.step(10, "right")
 			break
 	runFence.cleanGPIO
-	data = {"target": "fence_homing", "value" : "images/FenceHomeG.jpg"}
+	data = {"target": "fence_homing", "value" : "images/FenceHome.png"}
 	data = json.dumps(data)
 	ws.write_message(data)
 	print('Fence Fine Homed')
@@ -137,7 +137,7 @@ def fenceFineHoming():
 def fenceHoming():
 	global FenceHomePos
 	global Fence_Actual
-	data = {"target": "fence_homing", "value" : "images/FenceNoHome.jpg"}
+	data = {"target": "fence_homing", "value" : "images/FenceNoHome.png"}
 	data = json.dumps(data)
 	ws.write_message(data)
 	print('Fence Homing Started')
@@ -179,7 +179,7 @@ def heightFineHoming():
 			runHeight.step(10, "right")
 			break
 	runHeight.cleanGPIO
-	data = {"target": "height_homing", "value" : "images/HeightHomeG.jpg"}
+	data = {"target": "height_homing", "value" : "images/HeightHome.png"}
 	data = json.dumps(data)
 	ws.write_message(data)
 	print('Height Fine Homed')
@@ -188,7 +188,7 @@ def heightFineHoming():
 def heightHoming():
 	global HeightHomePos
 	global Height_Actual
-	data = {"target": "height_homing", "value" : "images/HeightNoHome.jpg"}
+	data = {"target": "height_homing", "value" : "images/HeightNoHome.png"}
 	data = json.dumps(data)
 	ws.write_message(data)
 	print('Height Homing Started')
@@ -226,7 +226,7 @@ def zeroFence():
 	global TouchPlateDim
 	global FenceOffsetRadius
 	print('Height Zero Started')
-	data = {"target": "fence_probe", "value" : "images/ProbeRunning.jpg"}
+	data = {"target": "fence_probe", "value" : "images/ProbeRunning.png"}
 	data = json.dumps(data)
 	ws.write_message(data)
 	GPIO.add_event_detect(31, GPIO.RISING)
@@ -244,14 +244,14 @@ def zeroFence():
 	print('Fence Zeroed')
 	Fence_Actual = TouchPlateDim + FenceOffsetRadius
 	FenceZero = 0.0
-	data = {"target": "fence_probe", "value" : "images/FenceProbe.jpg"}
+	data = {"target": "fence_probe", "value" : "images/FenceProbe.png"}
 	data = json.dumps(data)
 	ws.write_message(data)	
 
 def zeroHeight():
 	global HeightZero
 	global Height_Actual
-	data = {"target": "height_probe", "value" : "images/ProbeRunning.jpg"}
+	data = {"target": "height_probe", "value" : "images/ProbeRunning.png"}
 	data = json.dumps(data)
 	ws.write_message(data)
 	print('Height Zero Started')
@@ -279,7 +279,7 @@ def zeroHeight():
 	print('Height Zeroed')
 	Height_Actual = 0.1
 	HeightZero = 0.0
-	data = {"target": "height_probe", "value" : "images/HeightProbe.jpg"}
+	data = {"target": "height_probe", "value" : "images/HeightProbe.png"}
 	data = json.dumps(data)
 	ws.write_message(data)	
 	

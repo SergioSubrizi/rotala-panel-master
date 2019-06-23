@@ -1,10 +1,10 @@
 
 var tmpImg = new Image();
-tmpImg.src = "images/ProbeRunning.jpg";
+tmpImg.src = "images/ProbeRunning.png";
 var tmpImg2 = new Image();
-tmpImg2.src = "images/MovingRel.jpg";
+tmpImg2.src = "images/MovingRel.png";
 var tmpImg3 = new Image();
-tmpImg3.src = "images/RunningToAbs.jpg";
+tmpImg3.src = "images/RunningToAbs.png";
 
 var host = window.location.host;
 var ws = new WebSocket('ws://'+host+'/ws');
