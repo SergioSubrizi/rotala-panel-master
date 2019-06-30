@@ -219,24 +219,24 @@
 		#fence_homing { 
 			position: absolute;
 			top:  350px;
-			left:  80px;
+			left:  10px;
 		}
 
 		#height_homing { 
 			position: absolute;
 			top:  350px;
-			left:  240px;
+			left:  140px;
 		}
 		#fence_probe { 
 			position: absolute;
 			top:  350px;
-			left:  400px;
+			left:  550px;
 		}
 
 		#height_probe { 
 			position: absolute;
 			top:  350px;
-			left:  560px;
+			left:  680px;
 		}
 		
 		.triangle-up {
@@ -335,12 +335,12 @@
 		a.button4:hover{
 		 	border-color: rgba(255,255,255,1);
 		}
-			@media all and (max-width:30em){
+				@media all and (max-width:30em){
 		a.button4 {
 			  display:block;
 			  margin:0.2em auto;
-			 }
 		}
+			}
 
 /* ------------------ Navigation Buttons General Properties ----------------- */
 
@@ -368,13 +368,6 @@
 		}
 		#Center { 
 			position: absolute;
-			top:  55px;
-			left:  580px;
-/*			max-width: 55%;
-			max-height: 19%;	*/		
-		}
-		#Center1 { 
-			position: absolute;
 			top:  105px;
 			left:  600px;
 			max-width: 19%;
@@ -382,21 +375,30 @@
 /*			border: 2px;
 			border-color: white; */
 		}
-		#Center2 { 
+		
+		#absFence { 
+			position: absolute;
+			top:  55px;
+			left:  580px;
+/*			max-width: 55%;
+			max-height: 19%;	*/		
+		}
+		#absHeight { 
 			position: absolute;
 			top:  175px;
 			left:  580px;			
 		}
-		#Center3 { 
+		#relFenceMov { 
 			position: absolute;
 			top:  55px;
 			left:  10px;
 		}
-		#Center4 { 
+		#relHeightMov { 
 			position: absolute;
 			top:  175px;
 			left:  10px;		
-		}		
+		}
+		
 		#Up { 
 			position: absolute;
 			top:  54px;
@@ -429,6 +431,19 @@
 			left:  460px;
 			text-shadow: 3px 3px 0 #202020;
 			z-index: 100;
+		}
+
+		.hit:active {
+			transform: translateY(4px);
+		}
+		.hitup:active {
+			transform: translateY(-4px);
+		}
+		.hitleft:active {
+			transform: translateX(-4px);
+		}
+		.hitright:active {
+			transform: translateX(4px);
 		}
 
 		
@@ -534,6 +549,10 @@
 			position: absolute;
 			top: 350px;
 		}
+
+		#save_apply {
+			left: 350px;
+		}
 		
 /* #################### easy-numpad Input Properties ################## */
 
@@ -563,7 +582,7 @@
 			color: red;
 			border: 0px;
 		}
-		#relativeFenceInput {
+/*		#relativeFenceInput {
 			position: absolute;
 			top: 10px;
 			left: 150px;
@@ -574,4 +593,55 @@
 			background-color: black;
 			color: green;
 			border: 0px;
+		}	*/
+
+		
+/*  ------------ The Modal Out of Range Messages ------------------ */
+		
+		/* The Modal (background) */
+		.modal {
+		  display: none; /* Hidden by default */
+		  position: fixed; /* Stay in place */
+		  z-index: 1; /* Sit on top */
+		  padding-top: 100px; /* Location of the box */
+		  left: 0;
+		  top: 0;
+		  width: 100%; /* Full width */
+		  height: 100%; /* Full height */
+		  overflow: auto; /* Enable scroll if needed */
+		  background-color: rgb(0,0,0); /* Fallback color */
+		  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 		}
+
+		/* Modal Content */
+		.modal-content {
+		  background-color: #fe0000;
+		  font-size: 30px;
+		  font-weight: bold;
+		  text-align: center;
+		  margin: auto;
+		  padding: 30px;
+		  border: 5px solid #333;
+		  width: 80%;
+		}
+
+		/* The Close Button */
+		.close {
+		  color: #000;
+		  float: right;
+		  font-size: 60px;
+		  font-weight: bold;
+		}
+
+		.close:hover,
+		.close:focus {
+		  color: #000;
+		  text-decoration: none;
+		  cursor: pointer;
+		}
+		
+		
+		
+		
+		
+		

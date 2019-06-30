@@ -74,11 +74,11 @@
 
 	<!-- ----------- Photo Buttons ------------------ -->
 	
-		<img id="button_units" src="images/mm.jpg">
+		<img class="hit" id="button_units" src="images/mm.jpg">
 	<!--	<img id="button_mode" src="images/abs.jpg"> -->
-		<img id="button_zero1" src="images/zero1.jpg">
-		<img id="button_zero2" src="images/zero2.jpg">	
-		<img id="button_zero3" src="images/zero3.jpg">
+		<img class="hit" id="button_zero1" src="images/zero1.jpg">
+		<img class="hit" id="button_zero2" src="images/zero2.jpg">	
+		<img class="hit" id="button_zero3" src="images/zero3.jpg">
 		
 	</div>
 
@@ -109,14 +109,14 @@
 	
 	<!-- ------------- Navigation Buttons ---------------- -->	
 		<div class="NavButtons">
-			<img id="Left" src="images/navbuttonLeft.gif">
+			<img class="hitleft" id="Left" src="images/navbuttonLeft.gif">
 			<div class="imgtxt">
 			<!--	<h2 class="centered">Run</h2> -->
-				<img id="Center1" src="images/navbuttonCenter.gif">
+				<img class="hit" id="Center" src="images/navbuttonCenter.gif">
 			</div>
-			<img id="Right" src="images/navbuttonRight.gif">
-			<img id="Up" src="images/navbuttonUp.gif">
-			<img id="Down" src="images/navbuttonDown.gif">				
+			<img class="hitright"  id="Right" src="images/navbuttonRight.gif">
+			<img class="hitup" id="Up" src="images/navbuttonUp.gif">
+			<img class="hit" id="Down" src="images/navbuttonDown.gif">				
 		</div>
 	<!-- -------- Step Multiplier Navigation --------- -->
 		<button class="btn x01">x 0.1</button>
@@ -151,10 +151,10 @@
 
 	<!-- ------------- Navigation Buttons ---------------- -->	
 		<div class="NavButtons">
-			<img id="Center" src="images/RunToAbs.png">
-			<img id="Center2" src="images/RunToAbs.png">
-			<img id="Center3" src="images/MoveRel.png">
-			<img id="Center4" src="images/MoveRel.png">	
+			<img class="hit" id="absFence" src="images/RunToAbs.png">
+			<img class="hit" id="absHeight" src="images/RunToAbs.png">
+			<img class="hit" id="relFenceMov" src="images/MoveRel.png">
+			<img class="hit" id="relHeightMov" src="images/MoveRel.png">	
 		</div>
 	<!--	<img id="button_mode" src="images/abs.jpg"> -->
 
@@ -168,10 +168,10 @@
 			<h5 class="bottomright">mm</h5>	
         </div>			
 
-		<img id="fence_homing" src="images/FenceNoHome.png">
-		<img id="height_homing" src="images/HeightNoHome.png">		
-		<img id="fence_probe" src="images/FenceProbe.png">
-		<img id="height_probe" src="images/HeightProbe.png">
+		<img class="hit" id="fence_homing" src="images/FenceNoHome.png">
+		<img class="hit" id="height_homing" src="images/HeightNoHome.png">		
+		<img class="hit" id="fence_probe" src="images/FenceProbe.png">
+		<img class="hit" id="height_probe" src="images/HeightProbe.png">
 		
 	</div>
 	
@@ -179,7 +179,16 @@
 	
 	
 	
-	
+	<!-- The Modal -->
+	<div id="outOfRange" class="modal">
+
+	  <!-- Modal content -->
+	  <div class="modal-content">
+		<span class="close">&times;</span>
+		<p>Software Limits<br>Out of Rotala Range !!</p>
+	  </div>
+
+	</div>
 	
 	
 	
@@ -191,9 +200,68 @@
 
 	<div id="Settings" style="display: none;">
 	
-	
-		<img class="shutdown" id="powerOff" src="images/shutdown.png">
-		<img class="shutdown" id="reboot" src="images/reboot.png">
+		<img class="shutdown hit" id="powerOff" src="images/shutdown.png">
+		<img class="shutdown hit" id="reboot" src="images/reboot.png">
+		<img class="shutdown hit" id="save_apply" src="images/Save.png">
+		
+		
+		<!-- ------------------ GPIO Output Pins Settings --------------------- -->		
+		<div id="outPins" class="Pins">
+			<h4 style="color: red; margin: 3px;">Output Pins</h4>
+			<form name="htmlform" method="GET" action="Settings_form_send.php">
+				<table width="180px">
+					<tr>
+						 <td valign="top" class="Input">
+							<label for="xStep">Fence step</label>
+						 </td>
+						 <td valign="top">
+							<input id="fenceStep" type="number" name="xStep" maxlength="2" size="1" readonly="true" onclick="show_easy_numpad(this);" />
+						 </td>
+					</tr>
+
+					<tr>
+						<td valign="top" class="Input">
+							<label for="xDir">Fence dir</label>
+						</td>
+						<td valign="top">
+							<input  type="text" name="xDir" maxlength="2" size="1">
+						</td>
+					</tr>
+					<tr>
+						 <td valign="top" class="Input">
+							<label for="yStep">Height step</label>
+						 </td>
+						 <td valign="top">
+							<input  type="text" name="yStep" maxlength="2" size="1">
+						 </td>
+					</tr>
+					<tr>
+						<td valign="top" class="Input">
+							<label for="yDir">Height dir</label>
+						</td>
+						<td valign="top">
+							<input  type="text" name="yDir" maxlength="2" size="1">
+						</td>
+					</tr>
+					<tr>
+						 <td valign="top" class="Input">
+							<label for="zStep">Z step</label>
+						 </td>
+						 <td valign="top">
+							<input  type="text" name="zStep" maxlength="2" size="1">
+						 </td>
+					</tr>
+					<tr>
+						<td valign="top" class="Input">
+							<label for="zDir">Z dir</label>
+						</td>
+						<td valign="top">
+							<input  type="text" name="zDir" maxlength="50" size="1">
+						</td>
+					</tr>					
+				</table>
+			</form>
+		</div>
 	
 	</div>
 

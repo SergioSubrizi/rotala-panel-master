@@ -50,7 +50,7 @@ Fence_Target = 0.0
 FenceHomePos = 0.0			# Sensor Position for Fence Homing
 FenceMaxLimit = 400.0		# Maximum Fence Travel (mechanical limited)
 HeightHomePos = 0.0			# Sensor Position for Height Homing ( completely retracted)
-HeightMaxLimit = 100.0		# Maximum Fence Travel (mechanical limited)
+HeightMaxLimit = 110.0		# Maximum Fence Travel (mechanical limited)
 
 # Homing Variables
 HomeSearchSpeed = 300		# Velocity for initially finding the homing switch
@@ -73,45 +73,45 @@ probeDistance = 60				# Preset Max distance when moving for Auto Zero
 
 
 def MoveFence(ABS):
-	data = {"target": "Center", "value" : "images/RunningToAbs.png", "hold": "true"}
+	data = {"target": "absFence", "value" : "images/RunningToAbs.png", "hold": "true"}
 	data = json.dumps(data)
 	ws.write_message(data)
 	if ABS > 0:
-		runFence.step(ABS*200, "left"); #steps, dir, speed, stayOn
+		runFence.step(ABS*533, "left", speed=5); #steps, dir, speed, stayOn
 		runFence.cleanGPIO
 	else:
-		runFence.step(ABS*200, "right"); #steps, dir, speed, stayOn
+		runFence.step(ABS*533, "right", speed=5); #steps, dir, speed, stayOn
 		runFence.cleanGPIO
-	data = {"target": "Center", "value" : "images/RunToAbs.png", "hold": "false"}
+	data = {"target": "absFence", "value" : "images/RunToAbs.png", "hold": "false"}
 	data = json.dumps(data)
 	ws.write_message(data)
 	
 def MoveFenceRel(ABS):
-	data = {"target": "Center3", "value" : "images/MovingRel.png", "hold": "true"}
+	data = {"target": "relFenceMov", "value" : "images/MovingRel.png", "hold": "true"}
 	data = json.dumps(data)
 	ws.write_message(data)
 	if ABS > 0:
-		runFence.step(ABS*200, "left"); #steps, dir, speed, stayOn
+		runFence.step(ABS*533, "left", speed=5); #steps, dir, speed, stayOn
 		runFence.cleanGPIO
 	else:
-		runFence.step(ABS*200, "right"); #steps, dir, speed, stayOn
+		runFence.step(ABS*533, "right", speed=5); #steps, dir, speed, stayOn
 		runFence.cleanGPIO
-	data = {"target": "Center3", "value" : "images/MoveRel.png", "hold": "false"}
+	data = {"target": "relFenceMov", "value" : "images/MoveRel.png", "hold": "false"}
 	data = json.dumps(data)
 	ws.write_message(data)
 
 
 def MoveHeight(ABS):
-	data = {"target": "Center2", "value" : "images/RunningToAbs.png", "hold": "true"}
+	data = {"target": "absHeight", "value" : "images/RunningToAbs.png", "hold": "true"}
 	data = json.dumps(data)
 	ws.write_message(data)
 	if ABS > 0:
-		runHeight.step(ABS*200, "left"); #steps, dir, speed, stayOn
+		runHeight.step(ABS*533, "left", speed=5); #steps, dir, speed, stayOn
 		runHeight.cleanGPIO
 	else:
-		runHeight.step(ABS*200, "right"); #steps, dir, speed, stayOn
+		runHeight.step(ABS*533, "right", speed=5); #steps, dir, speed, stayOn
 		runHeight.cleanGPIO
-	data = {"target": "Center2", "value" : "images/RunToAbs.png", "hold": "false"}
+	data = {"target": "absHeight", "value" : "images/RunToAbs.png", "hold": "false"}
 	data = json.dumps(data)
 	ws.write_message(data)
 
@@ -122,10 +122,10 @@ def fenceFineHoming():
 	GPIO.add_event_detect(34, GPIO.RISING)
 
 	while True:
-		runFence.step(1, "left"); #steps, dir, speed, stayOn	
+		runFence.step(1, "left", speed=1); #steps, dir, speed, stayOn
 		if GPIO.event_detected(34):
 			GPIO.remove_event_detect(34)
-			runFence.step(10, "right")
+			runFence.step(100, "right", speed=5)
 			break
 	runFence.cleanGPIO
 	data = {"target": "fence_homing", "value" : "images/FenceHome.png"}
@@ -144,11 +144,11 @@ def fenceHoming():
 	GPIO.add_event_detect(34, GPIO.RISING)
 #	try:
 	while True:
-		runFence.step(100, "left"); #steps, dir, speed, stayOn
+		runFence.step(100, "left", speed=3); #steps, dir, speed, stayOn
 		if GPIO.event_detected(34):
 			GPIO.remove_event_detect(34)
 			time.sleep(0.5)
-			runFence.step(150, "right")
+			runFence.step(300, "right", speed=5)
 			time.sleep(0.5)
 			runFence.cleanGPIO
 			fenceFineHoming()
@@ -173,10 +173,10 @@ def heightFineHoming():
 	print('Height Fine Homing Started')
 	GPIO.add_event_detect(34, GPIO.RISING)
 	while True:
-		runHeight.step(1, "left"); #steps, dir, speed, stayOn
+		runHeight.step(1, "right", speed=1); #steps, dir, speed, stayOn
 		if GPIO.event_detected(34):
 			GPIO.remove_event_detect(34)
-			runHeight.step(10, "right")
+			runHeight.step(1500, "left", speed=4)
 			break
 	runHeight.cleanGPIO
 	data = {"target": "height_homing", "value" : "images/HeightHome.png"}
@@ -195,11 +195,11 @@ def heightHoming():
 	GPIO.add_event_detect(34, GPIO.RISING)
 #	try:
 	while True:
-		runHeight.step(100, "left"); #steps, dir, speed, stayOn	
+		runHeight.step(50, "right", speed=2); #steps, dir, speed, stayOn	
 		if GPIO.event_detected(34):
 			GPIO.remove_event_detect(34)
 			time.sleep(0.5)
-			runHeight.step(150, "right")
+			runHeight.step(1500, "left", speed=4)
 			time.sleep(0.5)
 			runHeight.cleanGPIO
 			heightFineHoming()
@@ -232,8 +232,8 @@ def zeroFence():
 	GPIO.add_event_detect(31, GPIO.RISING)
 #	try:
 	while True:
-		runFence.step(1, "left"); #steps, dir, speed, stayOn
-		time.sleep(0.5)
+		runFence.step(1, "left", speed=3); #steps, dir, speed, stayOn
+#		time.sleep(0.1)
 		if GPIO.event_detected(31):
 			GPIO.remove_event_detect(31)
 #			runFence.step(probeDistance, "right"); #steps, dir, speed, stayOn
@@ -258,7 +258,8 @@ def zeroHeight():
 	GPIO.add_event_detect(31, GPIO.RISING)
 #	try:
 	while True:
-		runHeight.step(1, "left"); #steps, dir, speed, stayOn	
+		runHeight.step(1, "left", speed=3); #steps, dir, speed, stayOn
+#		time.sleep(0.1)
 		if GPIO.event_detected(31):
 			GPIO.remove_event_detect(31)
 #			runHeight.step(probeDistance, "right"); #steps, dir, speed, stayOn
@@ -294,21 +295,19 @@ def counter():
 
 # i, z, r, valori di inizializazione dei display (solo test)
 #	z=90  # Height Display
-	r=45  # Angle Display (used only for test purpose)
+#	r=45  # Angle Display (used only for test purpose)
 
 	while True:
 
-# comunicazione I2C con sensore angolare
-		#amsb = bus.read_byte_data(I2C_ADDRESS, 0x0e)
-		#alsb = bus.read_byte_data(I2C_ADDRESS, 0x0f)
+#	------ comunicazione I2C con sensore angolare ------- da commentare se sensore non connesso
+	#	amsb = bus.read_byte_data(I2C_ADDRESS, 0x0e)	#-----
+	#	alsb = bus.read_byte_data(I2C_ADDRESS, 0x0f)	#-----
+	#	value = amsb*256 + alsb							#-----
+	#	angolo =  value*(360.0/4096)					#-----
+	#	print "%04X %d %0.2f %0.1f     \r" % (value,value,(value*(360.0/4096)),angolo/8 ),	#-----
+	#	sys.stdout.flush()								#-----
 
-		#value = amsb*256 + alsb
-		#angolo =  value*(360.0/4096)
-
-		#print "%04X %d %0.2f %0.1f     \r" % (value,value,(value*(360.0/4096)),angolo/8 ),
-		#sys.stdout.flush()
-
-		#time.sleep(0.01) # Time in seconds.
+		time.sleep(0.01) # Time in seconds.
 
 		if t_exit==True:
 			print "Bye"
@@ -317,7 +316,10 @@ def counter():
 		#i = i + 0.1
 		#if z > 0.01:
 		#	z -= 0.1
-		#r=angolo/8  # divide 360 angle to display 45 deg commentato quando manca il sensore
+		r=0.0
+		
+		
+#		r=angolo/8  # divide 360 angle to display 45 deg commentato quando manca il sensore		#----
 		time.sleep(0.1)
 
 
@@ -454,7 +456,6 @@ class SocketHandler(tornado.websocket.WebSocketHandler):
 					else:
 						data = {"target": "button_zero2", "value" : "images/zero2.jpg"}
 						print "Height Zero"
-
 					data = json.dumps(data)
 					ws.write_message(data)
 					return
@@ -468,7 +469,6 @@ class SocketHandler(tornado.websocket.WebSocketHandler):
 					else:
 						data = {"target": "button_zero3", "value" : "images/zero3.jpg"}
 						print "Angle Zero"
-
 					data = json.dumps(data)
 					ws.write_message(data)
 					return
@@ -481,7 +481,6 @@ class SocketHandler(tornado.websocket.WebSocketHandler):
 					else:
 						data = {"target": "Left", "value" : "images/navbuttonLeftON.gif"}
 						print "clock"
-
 					data = json.dumps(data)
 					ws.write_message(data)
 					return
@@ -494,7 +493,6 @@ class SocketHandler(tornado.websocket.WebSocketHandler):
 					else:
 						data = {"target": "Center", "value" : "images/navbuttonCenterON.gif"}
 						print "clock"
-
 					data = json.dumps(data)
 					ws.write_message(data)
 					return
@@ -507,7 +505,6 @@ class SocketHandler(tornado.websocket.WebSocketHandler):
 					else:
 						data = {"target": "Right", "value" : "images/navbuttonRightON.gif"}
 						print "clock"
-
 					data = json.dumps(data)
 					ws.write_message(data)
 					return
@@ -541,7 +538,7 @@ class SocketHandler(tornado.websocket.WebSocketHandler):
 	# ---------------------------------------------------------				
 	# -------------------- Motor Actions ----------------------
 	# ---------------------------------------------------------
-	
+			# --------- Fence Absolute Move -----------
 			if data["event"]=="setup":
 				if data["id"]=="fence":
 					#print data["value"]
@@ -553,40 +550,58 @@ class SocketHandler(tornado.websocket.WebSocketHandler):
 					x = threading.Thread(target=MoveFence, args=(Fence_ABSMove,))
 					x.start()
 					return
-
+			# --------- Height Absolute Move -----------
 			if data["event"]=="setup":
 				if data["id"]=="height":
-					#print data["value"]
+					print data["value"]
 					Height_Target = float(data["value"])
 					Height_ABSMove = Height_Target - Height_Actual
-					Height_Actual = Height_Target
-#					MoveHeight(Height_ABSMove)
-					# drive the motor in a background thread
-					x = threading.Thread(target=MoveHeight, args=(Height_ABSMove,))
-					x.start()
-					return
+					if Height_Target < 110.0 :		# Max Mechanical limit
+						print "Go from %0.1f to %0.1f" %(Height_Actual, Height_Target)
+#						MoveHeight(Height_ABSMove)
+					#  ------------ drive the motor in a background thread ---------------
+						x = threading.Thread(target=MoveHeight, args=(Height_ABSMove,))
+						x.start()
+						Height_Actual = Height_Target
+						return
+					else:
+						print "%0.1f is a Soft Limit Error" %(Height_Target)
+						data = {"target": "SoftLimit", "value" : True}
+						data = json.dumps(data)
+						ws.write_message(data)
+						return
 
+			# --------- Fence Relative Move -----------
 			if data["event"]=="setup":
 				if data["id"]=="relativeFence":
 					print data["value"]
 					Fence_RelativeMove = float(data["value"])
 					Fence_Actual = Fence_Actual + Fence_RelativeMove
 #					MoveFenceRel(Fence_RelativeMove)
-					# drive the motor in a background thread
+				# ------------ drive the motor in a background thread --------------
 					x = threading.Thread(target=MoveFence, args=(Fence_RelativeMove,))
 					x.start()
 					return
-
+			# --------- Height Relative Move -----------
 			if data["event"]=="setup":
 				if data["id"]=="relativeHeight":
 					print data["value"]
 					Height_RelativeMove = float(data["value"])
-					Height_Actual = Height_Actual + Height_RelativeMove
 #					MoveHeight(Height_RelativeMove)
-					# drive the motor in a background thread
-					x = threading.Thread(target=MoveHeight, args=(Height_RelativeMove,))
-					x.start()					
-					return
+					Height_Limit = Height_Actual + Height_RelativeMove
+					if Height_Limit < 110.0 :		# Max Mechanical limit
+						Height_Actual = Height_Actual + Height_RelativeMove
+						print "Go to %0.1f" %(Height_Actual)
+						# drive the motor in a background thread
+						x = threading.Thread(target=MoveHeight, args=(Height_RelativeMove,))
+						x.start()
+						return
+					else:
+						print "%0.1f Soft Limit Error" %(Height_Limit)
+						data = {"target": "SoftLimit", "value" : True}
+						data = json.dumps(data)
+						ws.write_message(data)
+						return
 
 	
 	# ---------------------------------------------------------

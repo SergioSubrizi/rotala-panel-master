@@ -20,6 +20,8 @@ var display9;
 var appoggio;
 
 
+
+
 ws.onopen = function(){
 	console.log("Websocket opened");
 };
@@ -64,6 +66,31 @@ ws.onmessage = function(ev){
 	if (data.target=="display9") {
 		display9.setValue(data.value.toFixed(1).padStart(5, " "));
 	}	
+
+
+//  ---------------------------------------------------------
+//  ------------ Out of Range Modal Message -----------------
+//  ---------------------------------------------------------
+	
+	var modal = document.getElementById("outOfRange");
+
+	// Get the <span> element that closes the modal
+	var span = document.getElementsByClassName("close")[0];
+
+	// When the user clicks on <span> (x), close the modal
+	span.onclick = function() {
+	  modal.style.display = "none";
+	}
+
+	// When the user clicks anywhere outside of the modal, close it
+	window.onclick = function(event) {
+	  if (event.target == modal) {
+		modal.style.display = "none";
+	  }
+	}
+
+// ------------------------------------------------------------
+
 	
 	
 	if (data.target=="abs_incr") {
@@ -104,9 +131,13 @@ ws.onmessage = function(ev){
 	}
 	if (data.target=="Left2") {
 		$("#Left2").attr("src",data.value.toString());
+
+		
+// ---------------------------------------------------------		
+// ---------------------------------------------------------	
 	}	
-	if (data.target=="Center") {
-		$("#Center").attr("src",data.value.toString());
+	if (data.target=="absFence") {
+		$("#absFence").attr("src",data.value.toString());
 		// display hold on panel
 		if (data.hold == "true") {
 			HoldOn.open({
@@ -117,8 +148,8 @@ ws.onmessage = function(ev){
 			HoldOn.close();
 		};
 	}
-	if (data.target=="Center2") {
-		$("#Center2").attr("src",data.value.toString());
+	if (data.target=="absHeight") {
+		$("#absHeight").attr("src",data.value.toString());
 		// display hold on panel
 		if (data.hold == "true") {
 			HoldOn.open({
@@ -129,8 +160,8 @@ ws.onmessage = function(ev){
 			HoldOn.close();
 		};
 	}	
-	if (data.target=="Center3") {
-		$("#Center3").attr("src",data.value.toString());
+	if (data.target=="relFenceMov") {
+		$("#relFenceMov").attr("src",data.value.toString());
 		// display hold on panel
 		if (data.hold == "true") {
 			HoldOn.open({
@@ -141,6 +172,10 @@ ws.onmessage = function(ev){
 			HoldOn.close();
 		};
 	}
+	
+// ---------------------------------------------------
+	
+	
 	if (data.target=="Right") {
 		$("#Right").attr("src",data.value.toString());
 	}
@@ -155,7 +190,16 @@ ws.onmessage = function(ev){
 	}	
 	if (data.target=="Shutdown") {
 		$("#Shutdown").attr("src",data.value.toString());
-	}	
+	}
+	
+/* ********** receive SoftLimit event from python *********** */
+	if (data.target=="SoftLimit") {
+		$("#SoftLimit").text(data.value.toString());
+//		alert("Max Soft Limit");
+		modal.style.display = "block";
+	}
+
+	
 };
 
 ws.onclose = function(ev){
@@ -421,26 +465,26 @@ $(document).ready(function() {
 	
 /*-- ********************** Motion Buttons *********************** --*/
 	
-	$("#Center").click(function(){
+	$("#absFence").click(function(){
 		//alert("Ci sono");
 		data={"event":"setup","id":"fence", "value" :$("#FenceInput").val()};
 		a=JSON.stringify(data);
 		ws.send(a);
 	});
 	
-	$("#Center2").click(function(){
+	$("#absHeight").click(function(){
 		//alert("Ci sono");
 		data={"event":"setup","id":"height", "value" :$("#HeightInput").val()};
 		a=JSON.stringify(data);
 		ws.send(a);
 	});
-	$("#Center3").click(function(){
+	$("#relFenceMov").click(function(){
 		//alert("Ci sono");
 		data={"event":"setup","id":"relativeFence", "value" :$("#FenceInput").val()};
 		a=JSON.stringify(data);
 		ws.send(a);
 	});
-	$("#Center4").click(function(){
+	$("#relHeightMov").click(function(){
 		//alert("Ci sono");
 		data={"event":"setup","id":"relativeHeight", "value" :$("#HeightInput").val()};
 		a=JSON.stringify(data);
